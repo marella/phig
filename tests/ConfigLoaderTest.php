@@ -12,6 +12,7 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
     {
         $this->subject = $this->getTestSubject();
     }
+
     public function tearDown()
     {
         unset($this->subject);
