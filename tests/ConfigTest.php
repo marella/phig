@@ -64,8 +64,17 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertSame(['y' => 1], $config->get('x'));
         $this->assertSame('bar', $config->get('foo'));
         $this->assertNull($config->get('empty'));
+        $this->assertNull($config->get('empty', 'default'));
 
         $this->assertSame($config->get('x.y'), $config->get('x')['y']);
+
+        // test default value
+
+        $this->assertFalse($config->has('non-existent'));
+        $this->assertSame('default', $config->get('non-existent', 'default'));
+        $this->assertTrue($config->has('x'));
+        $this->assertFalse($config->has('x.non-existent'));
+        $this->assertSame('default', $config->get('x.non-existent', 'default'));
 
         // test ArrayAccess
 

@@ -40,7 +40,7 @@ class ReadConfig extends Config
     public function get($key, $default = null)
     {
         if (!isset($this->cache['get'][$key])) {
-            $this->cache['get'][$key] = parent::get($key);
+            $this->cache['get'][$key] = parent::get($key, $default);
         }
 
         return $this->cache['get'][$key];
