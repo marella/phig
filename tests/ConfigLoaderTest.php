@@ -74,6 +74,8 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
 
     public function testSetParser()
     {
+        $this->assertFalse($this->subject->hasParser('ext'));
+
         $this->subject->setParser('ext', function () {
             return new PhpParser();
         });
@@ -84,10 +86,31 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
 
         $config = $this->subject->read(__DIR__.'/data/parsers/a.ext');
         $this->configAssertBasic($config);
+    }
+
+    public function testSetParserUsingUse()
+    {
+        $this->assertFalse($this->subject->hasParser('ext'));
 
         $parser = new PhpParser();
         $this->subject->setParser('ext', function () use ($parser) {
             return $parser;
+        });
+
+        $config = $this->subject->load(__DIR__.'/data/parsers/a.ext');
+        $this->assertInstanceOf(PhpParser::class, $this->subject->getParser('ext'));
+        $this->configAssertBasic($config);
+
+        $config = $this->subject->read(__DIR__.'/data/parsers/a.ext');
+        $this->configAssertBasic($config);
+    }
+
+    public function testSetParserUsingLoader()
+    {
+        $this->assertFalse($this->subject->hasParser('ext'));
+
+        $this->subject->setParser('ext', function ($loader) {
+            return $loader->getParser('php');
         });
 
         $config = $this->subject->load(__DIR__.'/data/parsers/a.ext');

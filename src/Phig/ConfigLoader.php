@@ -93,7 +93,11 @@ class ConfigLoader implements ConfigLoaderInterface
     {
         if (isset($this->parsers[$extension])) {
             if (is_callable($this->parsers[$extension])) {
-                $parser = call_user_func($this->parsers[$extension]);
+                $parser = $this->parsers[$extension];
+
+                unset($this->parsers[$extension]); // to prevent recursion
+
+                $parser = call_user_func($parser, $this);
 
                 if (!$parser instanceof ParserInterface) {
                     throw new UnexpectedValueException("Parser for $extension is not of type ".ParserInterface::class);

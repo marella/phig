@@ -46,7 +46,7 @@ class ExceptionsTest extends PHPUnit_Framework_TestCase
         $this->subject->load(__DIR__.'/data/fail/unsupported.ext');
     }
 
-    public function testSetGetParser()
+    public function testSetGetParserInvalidSet()
     {
         $this->assertFalse($this->subject->hasParser('ext'));
         $this->subject->setParser('ext', function () {
@@ -54,6 +54,29 @@ class ExceptionsTest extends PHPUnit_Framework_TestCase
         });
         $this->assertTrue($this->subject->hasParser('ext'));
         $this->setExpectedException(UnexpectedValueException::class);
+        $this->subject->getParser('ext');
+    }
+
+    public function testSetGetParserInvalidGet()
+    {
+        $this->assertFalse($this->subject->hasParser('ext'));
+        $this->assertFalse($this->subject->hasParser('non-existent'));
+        $this->subject->setParser('ext', function ($loader) {
+            return $loader->getParser('non-existent');
+        });
+        $this->assertTrue($this->subject->hasParser('ext'));
+        $this->setExpectedException(UnsupportedExtensionException::class);
+        $this->subject->getParser('ext');
+    }
+
+    public function testSetGetParserRecursion()
+    {
+        $this->assertFalse($this->subject->hasParser('ext'));
+        $this->subject->setParser('ext', function ($loader) {
+            return $loader->getParser('ext');
+        });
+        $this->assertTrue($this->subject->hasParser('ext'));
+        $this->setExpectedException(UnsupportedExtensionException::class);
         $this->subject->getParser('ext');
     }
 
