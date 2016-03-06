@@ -41,15 +41,18 @@ class ExceptionsTest extends PHPUnit_Framework_TestCase
 
     public function testLoadUnsupportedExtension()
     {
+        $this->assertFalse($this->subject->hasParser('ext'));
         $this->setExpectedException(UnsupportedExtensionException::class);
         $this->subject->load(__DIR__.'/data/fail/unsupported.ext');
     }
 
     public function testSetGetParser()
     {
+        $this->assertFalse($this->subject->hasParser('ext'));
         $this->subject->setParser('ext', function () {
             return 'foo';
         });
+        $this->assertTrue($this->subject->hasParser('ext'));
         $this->setExpectedException(UnexpectedValueException::class);
         $this->subject->getParser('ext');
     }

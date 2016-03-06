@@ -67,6 +67,18 @@ class ConfigLoader implements ConfigLoaderInterface
     }
 
     /**
+     * Check if a parser exists for a file extension.
+     *
+     * @param string $extension
+     *
+     * @return bool
+     */
+    public function hasParser($extension)
+    {
+        return isset($this->parsers[$extension]);
+    }
+
+    /**
      * Get parser for a file extension.
      *
      * @param string $extension

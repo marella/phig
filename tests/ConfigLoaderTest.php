@@ -98,6 +98,23 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
         $this->configAssertBasic($config);
     }
 
+    public function testHasParser()
+    {
+        $this->assertTrue($this->subject->hasParser('php'));
+
+        $this->assertFalse($this->subject->hasParser('ext'));
+        $this->subject->setParser('ext', function () {
+            return new PhpParser();
+        });
+        $this->assertTrue($this->subject->hasParser('ext'));
+
+        $this->assertFalse($this->subject->hasParser('ext2'));
+        $this->subject->setParser('ext2', function () {
+            return 'foo';
+        });
+        $this->assertTrue($this->subject->hasParser('ext2'));
+    }
+
     protected function configAssertEmpty($config)
     {
         $this->assertSame([], $config->all());
