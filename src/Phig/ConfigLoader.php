@@ -9,6 +9,7 @@ use Phig\Exceptions\FileNotFoundException;
 use Phig\Exceptions\UnsupportedExtensionException;
 use Phig\Parsers\JsonParser;
 use Phig\Parsers\PhpParser;
+use Phig\Parsers\XmlParser;
 use Phig\Support\Arr;
 use UnexpectedValueException;
 
@@ -123,6 +124,9 @@ class ConfigLoader implements ConfigLoaderInterface
         });
         $this->setParser('json', function () {
             return new JsonParser();
+        });
+        $this->setParser('xml', function () {
+            return new XmlParser();
         });
     }
 

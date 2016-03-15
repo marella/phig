@@ -11,4 +11,5 @@ class ParserException extends Exception
      */
     const PHP = 1;
     const JSON = 2;
+    const XML = 4;
 }

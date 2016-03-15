@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+    <true>true</true>
+    <false>false</false>
+    <null>null</null>
+    <int>1</int>
+    <float>2.3</float>
+    <string>foo</string>
+    <array>bar</array>
+    <array>baz</array>
+    <nested>
+        <array>bar</array>
+        <array>baz</array>
+    </nested>
+</config>
