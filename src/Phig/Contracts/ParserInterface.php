@@ -9,6 +9,8 @@ interface ParserInterface
      *
      * @param string $path
      *
+     * @throws \Phig\Exceptions\ParserException
+     *
      * @return mixed
      */
     public function parse($path);

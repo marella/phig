@@ -3,6 +3,7 @@
 namespace Phig\Tests;
 
 use Phig\ConfigLoader;
+use Phig\Parsers\JsonParser;
 use Phig\Parsers\PhpParser;
 use PHPUnit_Framework_TestCase;
 
@@ -136,6 +137,12 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
             return 'foo';
         });
         $this->assertTrue($this->subject->hasParser('ext2'));
+    }
+
+    public function testInbuiltParsers()
+    {
+        $this->assertInstanceOf(PhpParser::class, $this->subject->getParser('php'));
+        $this->assertInstanceOf(JsonParser::class, $this->subject->getParser('json'));
     }
 
     protected function configAssertEmpty($config)

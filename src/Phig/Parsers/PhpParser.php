@@ -2,7 +2,9 @@
 
 namespace Phig\Parsers;
 
+use Exception;
 use Phig\Contracts\ParserInterface;
+use Phig\Exceptions\ParserException;
 
 class PhpParser implements ParserInterface
 {
@@ -11,10 +13,16 @@ class PhpParser implements ParserInterface
      *
      * @param string $path
      *
+     * @throws \Phig\Exceptions\ParserException
+     *
      * @return mixed
      */
     public function parse($path)
     {
-        return require $path;
+        try {
+            return require $path;
+        } catch (Exception $e) {
+            throw new ParserException($path, ParserException::PHP, $e);
+        }
     }
 }

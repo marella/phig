@@ -7,6 +7,7 @@ use Phig\Contracts\ParserInterface;
 use Phig\Exceptions\ExtensionNotFoundException;
 use Phig\Exceptions\FileNotFoundException;
 use Phig\Exceptions\UnsupportedExtensionException;
+use Phig\Parsers\JsonParser;
 use Phig\Parsers\PhpParser;
 use Phig\Support\Arr;
 use UnexpectedValueException;
@@ -113,12 +114,15 @@ class ConfigLoader implements ConfigLoaderInterface
     }
 
     /**
-     * Register default parsers.
+     * Register inbuilt parsers.
      */
     protected function registerParsers()
     {
         $this->setParser('php', function () {
             return new PhpParser();
+        });
+        $this->setParser('json', function () {
+            return new JsonParser();
         });
     }
 
