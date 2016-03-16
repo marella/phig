@@ -1,5 +1,3 @@
 <?php
 
-return [
-    $undefined,
-];
+throw new Exception('Dummy Exception', 1);

@@ -4,11 +4,14 @@ namespace Phig\Tests\Parsers;
 
 use Phig\Contracts\ParserInterface;
 use Phig\Exceptions\ParserException;
+use PHPUnit_Framework_Error_Notice;
+use PHPUnit_Framework_Error_Warning;
 use PHPUnit_Framework_TestCase;
 
 abstract class ParserTestCase extends PHPUnit_Framework_TestCase
 {
     abstract protected function getTestSubjectName();
+
     abstract protected function getTestSubject();
 
     protected function getDataDir()
@@ -98,16 +101,27 @@ abstract class ParserTestCase extends PHPUnit_Framework_TestCase
     {
         $name = $this->getTestSubjectName();
 
+        // don't trigger phpunit exceptions when parsing files
+        // as exceptions should also be thrown outside phpunit framework
+        PHPUnit_Framework_Error_Warning::$enabled = false;
+        PHPUnit_Framework_Error_Notice::$enabled = false;
         try {
             $this->subject->parse($path);
         } catch (ParserException $e) {
         }
+        // re-enable them after parsing is done
+        PHPUnit_Framework_Error_Warning::$enabled = true;
+        PHPUnit_Framework_Error_Notice::$enabled = true;
 
         $this->assertInstanceOf(ParserException::class, $e);
 
         $expected = constant(ParserException::class.'::'.strtoupper($name));
         $actual = $e->getCode();
         $this->assertSame($expected, $actual);
+
+        // make sure phpunit exceptions are re-enabled
+        $this->setExpectedException(PHPUnit_Framework_Error_Notice::class);
+        ++$undefined;
     }
 
     public function failPathProvider()
