@@ -3,6 +3,7 @@
 namespace Phig\Tests;
 
 use Phig\ConfigLoader;
+use Phig\Parsers\IniParser;
 use Phig\Parsers\JsonParser;
 use Phig\Parsers\PhpParser;
 use Phig\Parsers\XmlParser;
@@ -144,6 +145,7 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(PhpParser::class, $this->subject->getParser('php'));
         $this->assertInstanceOf(JsonParser::class, $this->subject->getParser('json'));
+        $this->assertInstanceOf(IniParser::class, $this->subject->getParser('ini'));
         $this->assertInstanceOf(XmlParser::class, $this->subject->getParser('xml'));
     }
 

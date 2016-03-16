@@ -7,6 +7,7 @@ use Phig\Contracts\ParserInterface;
 use Phig\Exceptions\ExtensionNotFoundException;
 use Phig\Exceptions\FileNotFoundException;
 use Phig\Exceptions\UnsupportedExtensionException;
+use Phig\Parsers\IniParser;
 use Phig\Parsers\JsonParser;
 use Phig\Parsers\PhpParser;
 use Phig\Parsers\XmlParser;
@@ -124,6 +125,9 @@ class ConfigLoader implements ConfigLoaderInterface
         });
         $this->setParser('json', function () {
             return new JsonParser();
+        });
+        $this->setParser('ini', function () {
+            return new IniParser();
         });
         $this->setParser('xml', function () {
             return new XmlParser();
