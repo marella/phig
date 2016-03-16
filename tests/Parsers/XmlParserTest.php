@@ -18,22 +18,22 @@ class XmlParserTest extends ParserTestCase
 
     protected function parserAssertBooleans(array $data)
     {
-        $this->assertSame('true', $data['true']);
-        $this->assertSame('false', $data['false']);
+        $this->assertSame('true', $data['key.true']);
+        $this->assertSame('false', $data['key.false']);
     }
 
     protected function parserAssertNull(array $data)
     {
-        $this->assertSame('null', $data['null']);
+        $this->assertSame('null', $data['key.null']);
     }
 
     protected function parserAssertInt(array $data)
     {
-        $this->assertSame('1', $data['int']);
+        $this->assertSame('1', $data['key.int']);
     }
 
     protected function parserAssertFloat(array $data)
     {
-        $this->assertSame('2.3', $data['float']);
+        $this->assertSame('2.3', $data['key.float']);
     }
 }

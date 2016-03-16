@@ -53,34 +53,34 @@ abstract class ParserTestCase extends PHPUnit_Framework_TestCase
 
     protected function parserAssertBooleans(array $data)
     {
-        $this->assertTrue($data['true']);
-        $this->assertFalse($data['false']);
+        $this->assertTrue($data['key.true']);
+        $this->assertFalse($data['key.false']);
     }
 
     protected function parserAssertNull(array $data)
     {
-        $this->assertNull($data['null']);
+        $this->assertNull($data['key.null']);
     }
 
     protected function parserAssertInt(array $data)
     {
-        $this->assertSame(1, $data['int']);
+        $this->assertSame(1, $data['key.int']);
     }
 
     protected function parserAssertFloat(array $data)
     {
-        $this->assertSame(2.3, $data['float']);
+        $this->assertSame(2.3, $data['key.float']);
     }
 
     protected function parserAssertString(array $data)
     {
-        $this->assertSame('foo', $data['string']);
+        $this->assertSame('foo', $data['key.string']);
     }
 
     protected function parserAssertArray(array $data)
     {
-        $this->assertSame(['bar', 'baz'], $data['array']);
-        $this->assertSame(['array' => ['bar', 'baz']], $data['nested']);
+        $this->assertSame(['bar', 'baz'], $data['key.array']);
+        $this->assertSame(['key.array' => ['bar', 'baz']], $data['key.nested']);
     }
 
     public function pathProvider()
