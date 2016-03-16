@@ -13,4 +13,5 @@ class ParserException extends Exception
     const JSON = 2;
     const INI = 3;
     const XML = 4;
+    const YAML = 5;
 }

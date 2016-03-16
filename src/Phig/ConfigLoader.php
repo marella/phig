@@ -11,6 +11,7 @@ use Phig\Parsers\IniParser;
 use Phig\Parsers\JsonParser;
 use Phig\Parsers\PhpParser;
 use Phig\Parsers\XmlParser;
+use Phig\Parsers\YamlParser;
 use Phig\Support\Arr;
 use UnexpectedValueException;
 
@@ -131,6 +132,12 @@ class ConfigLoader implements ConfigLoaderInterface
         });
         $this->setParser('xml', function () {
             return new XmlParser();
+        });
+        $this->setParser('yaml', function () {
+            return new YamlParser();
+        });
+        $this->setParser('yml', function ($loader) {
+            return $loader->getParser('yaml');
         });
     }
 

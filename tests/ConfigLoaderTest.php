@@ -7,6 +7,7 @@ use Phig\Parsers\IniParser;
 use Phig\Parsers\JsonParser;
 use Phig\Parsers\PhpParser;
 use Phig\Parsers\XmlParser;
+use Phig\Parsers\YamlParser;
 use PHPUnit_Framework_TestCase;
 
 class ConfigLoaderTest extends PHPUnit_Framework_TestCase
@@ -147,6 +148,8 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(JsonParser::class, $this->subject->getParser('json'));
         $this->assertInstanceOf(IniParser::class, $this->subject->getParser('ini'));
         $this->assertInstanceOf(XmlParser::class, $this->subject->getParser('xml'));
+        $this->assertInstanceOf(YamlParser::class, $this->subject->getParser('yaml'));
+        $this->assertSame($this->subject->getParser('yaml'), $this->subject->getParser('yml'));
     }
 
     protected function configAssertEmpty($config)
