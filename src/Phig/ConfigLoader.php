@@ -117,6 +117,16 @@ class ConfigLoader implements ConfigLoaderInterface
     }
 
     /**
+     * Get supported file extensions.
+     *
+     * @return array
+     */
+    public function getSupportedExtensions()
+    {
+        return array_keys($this->parsers);
+    }
+
+    /**
      * Register inbuilt parsers.
      */
     protected function registerParsers()

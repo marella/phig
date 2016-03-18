@@ -3,6 +3,7 @@
 namespace Phig\Tests;
 
 use Phig\ConfigLoader;
+use Phig\Contracts\ParserInterface;
 use Phig\Parsers\IniParser;
 use Phig\Parsers\JsonParser;
 use Phig\Parsers\PhpParser;
@@ -140,6 +141,20 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
             return 'foo';
         });
         $this->assertTrue($this->subject->hasParser('ext2'));
+    }
+
+    public function testGetParser()
+    {
+        $extensions = $this->subject->getSupportedExtensions();
+        foreach ($extensions as $extension) {
+            $this->assertInstanceOf(ParserInterface::class, $this->subject->getParser($extension));
+        }
+    }
+
+    public function testGetSupportedExtensions()
+    {
+        $expected = ['php', 'json', 'ini', 'xml', 'yaml', 'yml'];
+        $this->assertSame($expected, $this->subject->getSupportedExtensions());
     }
 
     public function testInbuiltParsers()
