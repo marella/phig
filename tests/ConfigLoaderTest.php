@@ -51,19 +51,19 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
 
     public function testLoad()
     {
-        $config = $this->subject->load(glob(__DIR__.'/data/pass/*'), [__DIR__.'/data/pass/.env.php']);
+        $config = $this->subject->load(glob(__DIR__.'/data/pass/*'), glob(__DIR__.'/data/pass/.env.*'));
         $this->configAssertAll($config);
 
-        $config = $this->subject->read(glob(__DIR__.'/data/pass/*'), [__DIR__.'/data/pass/.env.php']);
+        $config = $this->subject->read(glob(__DIR__.'/data/pass/*'), glob(__DIR__.'/data/pass/.env.*'));
         $this->configAssertAll($config);
     }
 
     public function testLoadDir()
     {
-        $config = $this->subject->load(__DIR__.'/data/pass', [__DIR__.'/data/pass/.env.php']);
+        $config = $this->subject->load(__DIR__.'/data/pass', glob(__DIR__.'/data/pass/.env.*'));
         $this->configAssertAll($config);
 
-        $config = $this->subject->read(__DIR__.'/data/pass', [__DIR__.'/data/pass/.env.php']);
+        $config = $this->subject->read(__DIR__.'/data/pass', glob(__DIR__.'/data/pass/.env.*'));
         $this->configAssertAll($config);
     }
 
@@ -152,6 +152,14 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
         $this->assertSame($this->subject->getParser('yaml'), $this->subject->getParser('yml'));
     }
 
+    protected function configAssertAll($config)
+    {
+        $this->configAssertBasic($config);
+        $this->configAssertPrefix($config);
+        $this->configAssertOverride($config);
+        $this->configAssertParsers($config);
+    }
+
     protected function configAssertEmpty($config)
     {
         $this->assertSame([], $config->all());
@@ -185,11 +193,29 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
         $this->assertSame('bar', $config['d.var']);
     }
 
-    protected function configAssertAll($config)
+    protected function configAssertParsers($config)
     {
-        $this->configAssertBasic($config);
-        $this->configAssertPrefix($config);
-        $this->configAssertOverride($config);
+        $parsers = ['php', 'json', 'ini', 'xml', 'yaml'];
+        foreach ($parsers as $parser) {
+            $this->configAssertParser($config, $parser);
+        }
+    }
+
+    protected function configAssertParser($config, $prefix)
+    {
+        $this->assertSame('foo', $config["$prefix.x.y"]);
+        $this->assertSame('bar', $config["$prefix.z"]);
+        $this->assertSame(['y' => 'foo'], $config["$prefix.x"]);
+
+        $this->assertSame($config["$prefix.x.y"], $config[$prefix]['x']['y']);
+        $this->assertSame($config["$prefix.z"], $config[$prefix]['z']);
+        $this->assertSame($config["$prefix.x"], $config[$prefix]['x']);
+
+        $this->assertSame($config["$prefix.x.y"], $config["$prefix.x"]['y']);
+
+        // test env
+        $this->assertSame('baz', $config["$prefix.env"]);
+        $this->assertSame($config["$prefix.env"], $config[$prefix]['env']);
     }
 
     protected function getTestSubject()
