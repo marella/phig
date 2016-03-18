@@ -172,7 +172,7 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
         $this->configAssertBasic($config);
         $this->configAssertPrefix($config);
         $this->configAssertOverride($config);
-        $this->configAssertParsers($config);
+        $this->configAssertExtensions($config);
     }
 
     protected function configAssertEmpty($config)
@@ -208,15 +208,15 @@ class ConfigLoaderTest extends PHPUnit_Framework_TestCase
         $this->assertSame('bar', $config['d.var']);
     }
 
-    protected function configAssertParsers($config)
+    protected function configAssertExtensions($config)
     {
-        $parsers = ['php', 'json', 'ini', 'xml', 'yaml'];
-        foreach ($parsers as $parser) {
-            $this->configAssertParser($config, $parser);
+        $extensions = $this->subject->getSupportedExtensions();
+        foreach ($extensions as $extension) {
+            $this->configAssertExtension($config, $extension);
         }
     }
 
-    protected function configAssertParser($config, $prefix)
+    protected function configAssertExtension($config, $prefix)
     {
         $this->assertSame('foo', $config["$prefix.x.y"]);
         $this->assertSame('bar', $config["$prefix.z"]);
