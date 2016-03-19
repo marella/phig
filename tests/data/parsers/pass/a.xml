@@ -7,6 +7,13 @@
     <key.int>1</key.int>
     <key.float>2.3</key.float>
     <key.string>foo</key.string>
+
+    <key.yes>yes</key.yes>
+    <key.no>no</key.no>
+    <key.on>on</key.on>
+    <key.off>off</key.off>
+    <key.none>none</key.none>
+
     <key.array>bar</key.array>
     <key.array>baz</key.array>
     <key.nested>

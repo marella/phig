@@ -36,4 +36,13 @@ class IniParserTest extends ParserTestCase
     {
         $this->assertSame('2.3', $data['key.float']);
     }
+
+    protected function parserAssertOthers(array $data)
+    {
+        $this->assertSame('1', $data['key.yes']);
+        $this->assertSame('', $data['key.no']);
+        $this->assertSame('1', $data['key.on']);
+        $this->assertSame('', $data['key.off']);
+        $this->assertSame('', $data['key.none']);
+    }
 }

@@ -49,6 +49,7 @@ abstract class ParserTestCase extends PHPUnit_Framework_TestCase
         $this->parserAssertFloat($data);
         $this->parserAssertString($data);
         $this->parserAssertArray($data);
+        $this->parserAssertOthers($data);
     }
 
     protected function parserAssertBooleans(array $data)
@@ -81,6 +82,15 @@ abstract class ParserTestCase extends PHPUnit_Framework_TestCase
     {
         $this->assertSame(['bar', 'baz'], $data['key.array']);
         $this->assertSame(['key.array' => ['bar', 'baz']], $data['key.nested']);
+    }
+
+    protected function parserAssertOthers(array $data)
+    {
+        $this->assertSame('yes', $data['key.yes']);
+        $this->assertSame('no', $data['key.no']);
+        $this->assertSame('on', $data['key.on']);
+        $this->assertSame('off', $data['key.off']);
+        $this->assertSame('none', $data['key.none']);
     }
 
     public function pathProvider()
