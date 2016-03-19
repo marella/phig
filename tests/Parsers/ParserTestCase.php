@@ -97,11 +97,34 @@ abstract class ParserTestCase extends PHPUnit_Framework_TestCase
     {
         $dir = $this->getDataDir().'/pass';
         $name = $this->getTestSubjectName();
-        $paths = ["a.$name"/*, "$name.ext", $name*/];
+
+        $more = $this->createMoreExtensions($name, $dir);
+        $this->assertNotEmpty($more);
+
+        $paths = array_merge(["a.$name"], $more);
 
         return array_map(function ($value) use ($dir) {
             return ["$dir/$value"];
         }, $paths);
+    }
+
+    protected function createMoreExtensions($name, $dir)
+    {
+        $base = 'build';
+        $filenames = ["$name.ext", $name];
+        $filenames = array_map(function ($value) use ($base) {
+            return "$base/$value";
+        }, $filenames);
+
+        $contents = file_get_contents("$dir/a.$name");
+        $this->assertNotEmpty($contents);
+        foreach ($filenames as $filename) {
+            $path = "$dir/$filename";
+            file_put_contents($path, $contents);
+            $this->assertSame($contents, file_get_contents($path));
+        }
+
+        return $filenames;
     }
 
     /**
